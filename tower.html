@@ -3,24 +3,29 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>The Eiffel Tower</title>
+    <title>Eiffel Tower</title>
   </head>
   <body>
     <div class = "full screen">
     <div class= "textside left">
       <div class="heading" id="typing"></div>
-      <p class="fade">aaaaaaaaaaaaaa<br>blahblahb lah<br>brahrajk</p>
+      <p class="fade">
+        The Eiffel Tower: Parisian symbol of engineering excellence, a majestic landmark that offers breathtaking views to tourists worldwide. Unfortunately, the city leaves a lot to be desired.</p>
       <h3 class="fade2">Waffleability Bar:</h3>
       <div class = "barbg fade2">
         <div class="wafflebar etowerwaffle">
-          x%  
+          10%  
         </div>
       </div>
+      <button id="go-back-btn" onclick="location.href='index.html'">go back</button>
     </div>
     <div class = "canvasside right">
       <canvas id = "bg"> </canvas>
     </div>
   </div>
+
+  <a href="index.html">Leave</a>
+
   <script>
       var chrs = "The Eiffel Tower".split("");
       (function animate() {
