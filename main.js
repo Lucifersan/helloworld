@@ -32,7 +32,7 @@ let objToRender = 'earth';
 const loader = new GLTFLoader();
 
 //Load the file 
-loader.load(`./${objToRender}.gltf`, (gltf) =>{
+loader.load(`./models/${objToRender}.gltf`, (gltf) =>{
     gltf.scene.scale.set( 20 , 20, 20 );
     //If the file is loaded, add it to the scene
     object = gltf.scene;
@@ -82,12 +82,29 @@ const bloomPass = new UnrealBloomPass (
 )
 composer.addPass(bloomPass);
 
+//stars
+function addStar(){
+  const geometry = new THREE.SphereGeometry(0.25, 24, 24);
+  const material = new THREE.MeshStandardMaterial({color:0xFFFFFF});
+  const star = new THREE.Mesh(geometry, material);
+  //randomly fills an array of size 3 with numbers from 1-100
+  const [x, y, z] = Array(3)
+    .fill()
+    .map(() => THREE.MathUtils.randFloatSpread(100));
+
+  star.position.set(x, y, z);
+  scene.add(star);
+}
+
+Array(200).fill().forEach(addStar);
+
 function animate(){
   requestAnimationFrame(animate);
   object.rotation.x += 0.01;
   object.rotation.y += 0.01;
   composer.render();
 }
+
 
 //Add a listener to the window, so we can resize the window and the camera
 window.addEventListener("resize", function () {
