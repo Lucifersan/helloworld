@@ -60,7 +60,7 @@ renderer.setPixelRatio( window.devicePixelRatio);
 renderer.setSize(window.innerWidth/2, window.innerHeight);
 
 // sets camera position (x, y, z)
-camera.position.set(0,0,50);
+camera.position.set(20,0,50);
 renderer.render(scene, camera );
 
 //Pointed Light (spotlight)

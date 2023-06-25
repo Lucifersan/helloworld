@@ -5,12 +5,12 @@ import { OrbitControls } from "https://cdn.skypack.dev/three@0.129.0/examples/js
 import {GLTFLoader} from 'three/examples/jsm/loaders/GLTFLoader.js';
 import {RGBELoader} from 'three/examples/jsm/loaders/RGBELoader.js';
 import { CardBody } from 'reactstrap';
-import { EffectComposer } from "/node_modules/three/examples/jsm/postprocessing/EffectComposer.js";
-import { RenderPass } from "/node_modules/three/examples/jsm/postprocessing/RenderPass.js";
-import { UnrealBloomPass } from "/node_modules/three/examples/jsm/postprocessing/UnrealBloomPass.js";
+
+
+const randomLocation = ["tower.html", "cntower.html", "colosseum.html", "pyramid.html"]
 
 //create a new camera with positions and angles
-const camera = new THREE.PerspectiveCamera(75, window.innerWidth/2 / window.innerHeight, 0.1, 1000);
+const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 
 const renderer = new THREE.WebGL1Renderer({
   canvas: document.querySelector('#bg'),
@@ -52,23 +52,21 @@ function onDblClick( event ) {
 
 	pointer.x = ( event.clientX / window.innerWidth ) * 2 - 1;
 	pointer.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
-
+  
   // update the picking ray with the camera and pointer position
   raycaster.setFromCamera( pointer, camera );
 
   // calculate objects intersecting the picking ray
   const intersects = raycaster.intersectObjects(scene.children) ;
+  let number = Math.floor(Math.random()*4);
 
-  if(intersects.length > 0){
-    modal.style.display = "block";
-    console.log(intersects[0].object.userData.name)
-    // clickable = intersects[0].object
-  }
-  // console.log(intersects)
-  // for ( let i = 0; i < intersects.length; i ++ ) {
+  console.log(randomLocation[number])
+  window.location.href = randomLocation[number];
 
-  //   intersects[ i ].object.material.color.set( 0xff0000 );
-
+  // if(intersects.length > 0&& intersects[0].object.userData.name != undefined){
+  //   // modals[number].style.display = "block";
+  //   console.log(intersects[0].object.userData.name)
+    
   // }
 
 } 
@@ -82,7 +80,6 @@ let mouseY = window.innerHeight / 2;
 //Keep the 3D object on a global variable so we can access it later
 let earth;
 let toronto, paris, egypt;
-// let pins = [toronto, paris, egypt];
 const world = new THREE.Group();
 
 //OrbitControls allow the camera to move around the scene
@@ -123,29 +120,13 @@ function loadToronto(){
   });
 }
 
-// function loadParis(){
-//   loader.load(`./models/pin1.gltf`, (gltf) =>{
-//     gltf.scene.scale.set( 20 , 20, 20 );
-//     paris = gltf.scene;
-//     paris.position.set(0, 20, 5);
-//     paris.userData.clickable = true;
-//     paris.userData = {
-//       name: "Paris"
-//     };
-//     world.add(paris);
-//   }, undefined, function ( error ) {
-//     console.error( error );
-//   });
-  
-// }
-
 //This adds controls to the camera, so we can rotate / zoom it with the mouse
 controls = new OrbitControls(camera, renderer.domElement);
 
 // Scene object (kinda like the 3d space where everything exists)
 const scene = new THREE.Scene();
 renderer.setPixelRatio( window.devicePixelRatio);
-renderer.setSize(window.innerWidth/2, window.innerHeight);
+renderer.setSize(window.innerWidth, window.innerHeight);
 scene.add(world);
 
 // sets camera position (x, y, z)
@@ -156,20 +137,15 @@ renderer.render(scene, camera );
 const pointLight = new THREE.PointLight(0x05faf2);
 pointLight.position.set(20,20,20);
 
-const pointLight2 = new THREE.PointLight(0xdc2eff, 75, 0, 0);
-pointLight2.position.set(0,0,0);
 //Light in general i guess?
 const ambientLight = new THREE.AmbientLight(0xffffff);
 scene.add(pointLight, ambientLight);
 
 function animate(){
   requestAnimationFrame(animate);
-  // world.rotation.x += 0.01;
-  // world.rotation.y += 0.01;
-  // toronto.position.set(0, 30, 0);
-  // toronto.rotation.x += 0.01;
-  // toronto.rotation.y += 0.01;
-  composer.render();
+  world.rotation.x += 0.001;
+  world.rotation.y += 0.001;
+  renderer.render(scene,camera);
 }
 
 window.addEventListener( 'dblclick', onDblClick );
@@ -199,41 +175,6 @@ function addStar(){
 Array(200).fill().forEach(addStar);
 
 loadEarth();
-// loadParis();
 loadToronto();
-
-//bloom
-const renderScene = new RenderPass(scene, camera)
-const composer = new EffectComposer(renderer)
-composer.addPass(renderScene)
-const bloomPass = new UnrealBloomPass (
-  new THREE.Vector2(window.innerWidth, window.innerHeight),
-  .2,
-  1.5,
-  .7
-)
-composer.addPass(bloomPass);
-
-// Get the modal
-var modal = document.getElementById("myModal");
-
-// Get the button that opens the modal
-var btn = document.getElementById("myBtn");
-
-// Get the <span> element that closes the modal
-var span = document.getElementsByClassName("close")[0];
-
-// When the user clicks on <span> (x), close the modal
-// span.onclick = function() {
-//   modal.style.display = "none";
-// }
-
-// When the user clicks anywhere outside of the modal, close it
-// window.onclick = function(event) {
-//   if (event.target == modal) {
-    
-//   }
-// }
-
 
 animate();

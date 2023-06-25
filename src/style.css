@@ -14,15 +14,6 @@
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
 }
-/* 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
-} */
 
 body {
   margin: 0;
@@ -71,7 +62,7 @@ body {
 
 
 /* PROGRESS BAR */
-/* .progress-bar-container {
+.progress-bar-container {
   position: absolute;
   left: 50%;
   top: 50%;
@@ -94,7 +85,7 @@ body {
 label {
   color: white;
   font-size: 2rem;
-} */
+}
 
 
 /* TOWER */
@@ -164,17 +155,76 @@ body::-webkit-scrollbar{
 .heading {
   color:white;
   font-size:8em;
-  text-align:left;
   line-height: 8.5rem;
-  
+	top: 10px;
+	width: 100%;
+	text-align: left;
+	z-index: 100;
+	display:block;
 }
 
 p {
   color:rgb(192, 192, 192);
-  font-size:3em;
+  font-size:1.5em;
   font-weight:100;
   line-height: 1em;
 }
+
+.front-words{
+  margin-left:6rem;
+}
+
+h3 {
+  color:rgb(192, 192, 192);
+  font-size:2em;
+  font-weight:200;
+}
+
+.barbg {
+  width: 70%;
+  margin: auto;
+  background-color: rgba(206,204,202,0.2);
+}
+
+.wafflebar {
+  text-align: right;
+  font-size: larger;
+  font-weight:bold;
+  color:rgba(51, 0, 0,0.7);
+  padding:.5rem;
+  background-image:url('./models/waffle.jpg');
+}
+
+.etowerwaffle {
+  width:10%;
+}
+
+#typing::after{
+  content: "|";
+  font-size: 1.25em;
+  animation: blink .75s step-end infinite;
+}
+
+@keyframes blink {
+  from, to { color: transparent }
+  50% { color: rgba(245, 245, 245) }
+}
+
+.fade {
+  animation: fade 2s;
+}
+
+@keyframes fade {
+  0%{opacity:0;}
+  100%{opacity:1;}
+}
+
+.fade2{
+  animation: fade 10s;
+}
+
+
+
 
 h3 {
   color:rgb(192, 192, 192);
@@ -235,4 +285,12 @@ h3 {
 
 .fade2{
   animation: fade 10s;
+}
+
+#go-back-btn{
+  margin-top:2rem;
+  text-align: center;
+  padding:1rem 2rem;
+  border-radius: 10%;
+  border:.5px solid;
 }
