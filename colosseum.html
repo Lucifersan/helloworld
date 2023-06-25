@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>The Colosseum</title>
+  </head>
+  <body>
+    <div class = "full screen">
+    <div class= "textside left">
+      <div class="heading" id="typing"></div>
+      <p class="fade">The Colosseum, located in Rome, Italy, is an amphitheater that used to host large-scale events like gladiatorial games for the Romans. It was built between 70-72 C.E and is around 189 by 156 meters, able to hold >50 000 people; that's a lot of people to eat waffles with!
+      </p>
+      <h3 class="fade2">Waffleability Bar:</h3>
+      <div class = "barbg fade2">
+        <div class="wafflebar colowaffle">
+            80%  
+        </div>
+      </div>
+    </div>
+    <div class = "canvasside right">
+      <canvas id = "bg"> </canvas>
+    </div>
+  </div>
+  <script>
+      var chrs = "The Colosseum".split("");
+      (function animate() {
+        (chrs.length > 0) ? document.getElementById('typing').innerHTML += chrs.shift() : clearTimeout(go); 
+        var go = setTimeout(animate, 50);
+      })();</script>
+
+    <script type="module" src="/colosseum.js"></script>
+  </body>
+</html>
