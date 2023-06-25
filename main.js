@@ -1,62 +1,118 @@
 import './style.css'
 import * as THREE from 'three';
-const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000);
+// To allow for the camera to move around the scene
+import { OrbitControls } from "https://cdn.skypack.dev/three@0.129.0/examples/jsm/controls/OrbitControls.js";
+import {GLTFLoader} from 'three/examples/jsm/loaders/GLTFLoader.js';
+import { EffectComposer } from "/node_modules/three/examples/jsm/postprocessing/EffectComposer.js";
+import { RenderPass } from "/node_modules/three/examples/jsm/postprocessing/RenderPass.js";
+import { UnrealBloomPass } from "/node_modules/three/examples/jsm/postprocessing/UnrealBloomPass.js";
+
+//create a new camera with positions and angles
+const camera = new THREE.PerspectiveCamera(75, window.innerWidth/2 / window.innerHeight, 0.1, 1000);
+
 const renderer = new THREE.WebGL1Renderer({
   canvas: document.querySelector('#bg'),
 
 });
 
+//Keep track of the mouse position, so we can make the earth move
+let mouseX = window.innerWidth / 2;
+let mouseY = window.innerHeight / 2;
+
+//Keep the 3D object on a global variable so we can access it later
+let object;
+
+//OrbitControls allow the camera to move around the scene
+let controls;
+
+//Set which object to render
+let objToRender = 'earth';
+
+//Instantiate a loader for the .gltf file
+const loader = new GLTFLoader();
+
+//Load the file 
+loader.load(`./models/${objToRender}.gltf`, (gltf) =>{
+    gltf.scene.scale.set( 20 , 20, 20 );
+    //If the file is loaded, add it to the scene
+    object = gltf.scene;
+    scene.add(object);
+  },
+  function (xhr) {
+    //While it is loading, log the progress
+    console.log((xhr.loaded / xhr.total * 100) + '% loaded');
+  },
+  function (error) {
+    //If there is an error, log it
+    console.error(error);
+  }
+);
+
+//This adds controls to the camera, so we can rotate / zoom it with the mouse
+if (objToRender === "earth") {
+  controls = new OrbitControls(camera, renderer.domElement);
+}
+
+//canvas container
+
+// Scene object (kinda like the 3d space where everything exists)
+const scene = new THREE.Scene();
 renderer.setPixelRatio( window.devicePixelRatio);
-renderer.setSize(window.innerWidth, window.innerHeight);
-camera.position.setZ(30);
-renderer.render( scene, camera );
+renderer.setSize(window.innerWidth/2, window.innerHeight);
 
+// sets camera position (x, y, z)
+camera.position.set(20,0,50);
+renderer.render(scene, camera );
 
-const geometry = new THREE.SphereGeometry( 10, 30, 30); 
-const material = new THREE.MeshStandardMaterial( { color: 0x990b9c} ); 
-const sphere = new THREE.Mesh( geometry, material ); scene.add( sphere );
+//Pointed Light (spotlight)
+const pointLight = new THREE.PointLight(0xdc2eff, 100, 0, 0);
+pointLight.position.set(0,0,0);
 
-scene.add(sphere);
-
-const pointLight = new THREE.PointLight(0x05faf2);
-pointLight.position.set(20,20,20);
-
-const ambientLight = new THREE.AmbientLight(0xffffff);
-
+//Light in general i guess?
+const ambientLight = new THREE.AmbientLight(0x404040);
 scene.add(pointLight, ambientLight);
+
+//bloom
+const renderScene = new RenderPass(scene, camera)
+const composer = new EffectComposer(renderer)
+composer.addPass(renderScene)
+const bloomPass = new UnrealBloomPass (
+  new THREE.Vector2(window.innerWidth, window.innerHeight),
+  .2,
+  1.5,
+  .7
+)
+composer.addPass(bloomPass);
+
+//stars
+function addStar(){
+  const geometry = new THREE.SphereGeometry(0.25, 24, 24);
+  const material = new THREE.MeshStandardMaterial({color:0xFFFFFF});
+  const star = new THREE.Mesh(geometry, material);
+  //randomly fills an array of size 3 with numbers from 1-100
+  const [x, y, z] = Array(3)
+    .fill()
+    .map(() => THREE.MathUtils.randFloatSpread(100));
+
+  star.position.set(x, y, z);
+  scene.add(star);
+}
+
+Array(200).fill().forEach(addStar);
 
 function animate(){
   requestAnimationFrame(animate);
-  sphere.rotation.x += 0.01;
-  sphere.rotation.y += 0.01;
-  //sphere.position.set(10,10,10);
-  renderer.render(scene,camera);
+  object.rotation.x += 0.01;
+  object.rotation.y += 0.01;
+  composer.render();
 }
 
+
+//Add a listener to the window, so we can resize the window and the camera
+window.addEventListener("resize", function () {
+  camera.aspect = window.innerWidth / window.innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(window.innerWidth, window.innerHeight);
+});
+
 animate();
-r
-/*
-import javascriptLogo from './javascript.svg'
-import viteLogo from '/vite.svg'
-import { setupCounter } from './counter.js'
-
-document.querySelector('#app').innerHTML = `
-  <div>
-    <a href="https://vitejs.dev" target="_blank">
-      <img src="${viteLogo}" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript" target="_blank">
-      <img src="${javascriptLogo}" class="logo vanilla" alt="JavaScript logo" />
-    </a>
-    <h1>Hello Vite!</h1>
-    <div class="card">
-      <button id="counter" type="button"></button>
-    </div>
-    <p class="read-the-docs">
-      Click on the Vite logo to learn more
-    </p>
-  </div>
-`
-
-setupCounter(document.querySelector('#counter'))*/
