@@ -8,7 +8,7 @@ import { RenderPass } from "/node_modules/three/examples/jsm/postprocessing/Rend
 import { UnrealBloomPass } from "/node_modules/three/examples/jsm/postprocessing/UnrealBloomPass.js";
 
 //create a new camera with positions and angles
-const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+const camera = new THREE.PerspectiveCamera(75, window.innerWidth/2 / window.innerHeight, 0.1, 1000);
 
 const renderer = new THREE.WebGL1Renderer({
   canvas: document.querySelector('#bg'),
@@ -53,10 +53,12 @@ if (objToRender === "earth") {
   controls = new OrbitControls(camera, renderer.domElement);
 }
 
+//canvas container
+
 // Scene object (kinda like the 3d space where everything exists)
 const scene = new THREE.Scene();
 renderer.setPixelRatio( window.devicePixelRatio);
-renderer.setSize(window.innerWidth, window.innerHeight);
+renderer.setSize(window.innerWidth/2, window.innerHeight);
 
 // sets camera position (x, y, z)
 camera.position.set(20,0,50);
