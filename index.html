@@ -2,26 +2,34 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Hello World</title>
   </head>
   <body>
-    <div class = "full screen">
-    <div class= "textside right">
-      <div id="typing" class="heading"></div>
-      <a href = "tower.html">adjksajld</a>
-      <p class="fade">Welcome to <i>Hello World</i>, an information catalogue of popular tourist spots. <br> Double-click on a map pin to visit.</p>
-    </div>
-    <div class = "canvasside left">
-      <canvas id = "bg"> </canvas>
-    </div>
+    <div class="progress-bar-container">
+      <label for="progress-bar">Loading...</label>
+      <progress id="progress-bar" value="0" max="100"></progress>
   </div>
-    <script>
-      var chrs = "Hello World".split("");
-      (function animate() {
-        (chrs.length > 0) ? document.getElementById('typing').innerHTML += chrs.shift() : clearTimeout(go); 
-        var go = setTimeout(animate, 50);
-      })();</script>
+  <div class= "textside right">
+    <div id="typing" class="heading"></div>
+    <p class="fade">Welcome to <i>Hello World</i>, an information catalogue of popular tourist spots. <br> Double-click on the map pin on the globe to go on a mystery visit.</p>
+  </div>
+  <div class = "canvasside left">
+    <canvas id = "bg"> </canvas>
+  </div>
+
+    </div>
+      <script>
+        var chrs = "Hello World".split("");
+        (function animate() {
+          (chrs.length > 0) ? document.getElementById('typing').innerHTML += chrs.shift() : clearTimeout(go); 
+          var go = setTimeout(animate, 50);
+        })();
+      </script>
+
+
     <script type="module" src="/main.js"></script>
+    <script type="module" src="/tower.js"></script>
   </body>
 </html>
