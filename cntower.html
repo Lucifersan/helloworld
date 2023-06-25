@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Eiffel Tower</title>
+  </head>
+  <body>
+    <div class = "full screen">
+    <div class= "textside left">
+      <div class="heading" id="typing"></div>
+      <p class="fade">aaaaaaaaaaaaaa<br>blahblahb lah<br>brahrajk</p>
+      <h3 class="fade2">Waffleability Bar:</h3>
+      <div class = "barbg fade2">
+        <div class="wafflebar cntowerwaffle">
+          x%  
+        </div>
+      </div>
+    </div>
+    <div class = "canvasside right">
+      <canvas id = "bg"> </canvas>
+    </div>
+  </div>
+  <script>
+      var chrs = "The CN Tower".split("");
+      (function animate() {
+        (chrs.length > 0) ? document.getElementById('typing').innerHTML += chrs.shift() : clearTimeout(go); 
+        var go = setTimeout(animate, 50);
+      })();</script>
+
+    <script type="module" src="/cntower.js"></script>
+  </body>
+</html>
