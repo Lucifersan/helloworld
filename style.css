@@ -71,7 +71,7 @@ body {
 
 
 /* PROGRESS BAR */
-.progress-bar-container {
+/* .progress-bar-container {
   position: absolute;
   left: 50%;
   top: 50%;
@@ -94,7 +94,7 @@ body {
 label {
   color: white;
   font-size: 2rem;
-}
+} */
 
 
 /* TOWER */
@@ -199,6 +199,18 @@ h3 {
 
 .etowerwaffle {
   width:10%;
+}
+
+.cntowerwaffle {
+  width:90%;
+}
+
+.pyramidwaffle {
+  width: 60%;
+}
+
+.colowaffle {
+  width:80%;
 }
 
 #typing::after{
